@@ -11,6 +11,7 @@ import {debounceTime, ReplaySubject, shareReplay} from "rxjs";
 import {DOCUMENT} from "@angular/common";
 import getComputedStyle from "@popperjs/core/lib/dom-utils/getComputedStyle";
 
+//수정됨
 export enum KEY_CODES {
   RIGHT_ARROW = 'ArrowRight',
   LEFT_ARROW = 'ArrowLeft',
@@ -24,6 +25,8 @@ export enum KEY_CODES {
   F = 'f',
   H = 'h',
   K = 'k',
+  N = 'n',
+  M = 'm',
   BACKSPACE = 'Backspace',
   DELETE = 'Delete',
   SHIFT = 'Shift'
