@@ -1316,16 +1316,18 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   //수정들어감
   moveToNextBookmark() {
-    alert('moveToNextBookmark 실행됨');
-    const bookmarkedPages = Object.keys(this.bookmarks).map(Number).sort((a, b) => a - b);
+    const goToPageNum = this.promptForPage();
+    if (goToPageNum === null) { return; }
+      this.goToPage(parseInt(goToPageNum.trim(), 10));
+    ///const bookmarkedPages = Object.keys(this.bookmarks).map(Number).sort((a, b) => a - b);
     //Object.key로 bookmarks의 객체의 키 배열을 가져온다. map으로 모두 숫자로 변환. sort로 오름차순으로 정리
-    const nextPage = bookmarkedPages.find(page => page > this.pageNum);
+    ///const nextPage = bookmarkedPages.find(page => page > this.pageNum);
     //현재 페이지보다 큰 첫번째 번호를 찾는다.
     
-    if (nextPage !== undefined) {
-      this.goToPage(nextPage); 
-    } else {
-      alert('더 이상 다음 북마크 페이지가 없습니다.');
+    ///if (nextPage !== undefined) {
+    ///  this.goToPage(nextPage); 
+    ///} else {
+    ///  alert('더 이상 다음 북마크 페이지가 없습니다.');
     }
   }
 
