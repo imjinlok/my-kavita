@@ -647,10 +647,8 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (event.key === KEY_CODES.H) {
       this.openShortcutModal();
     } else if (event.key === KEY_CODES.N) {
-      this.toastr.info('다음북마크 키이벤트');
       this.moveToNextBookmark();
     } else if (event.key === KEY_CODES.M) {
-      this.toastr.info('이전북마크 키이벤트');
       this.moveToPreviousBookmark();
     }
   }
@@ -1324,6 +1322,7 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     //Object.key로 bookmarks의 객체의 키 배열을 가져온다. map으로 모두 숫자로 변환. sort로 오름차순으로 정리
     const nextPage = bookmarkedPages.find(page => page > this.pageNum);
     //현재 페이지보다 큰 첫번째 번호를 찾는다.
+    this.toastr.info(`북마크목록: ${bookmarkedPages.join(', ')}\n현재페이지: ${this.pageNum}\n다음 북마크: ${nextPage}`);
     
     if (nextPage !== undefined) {
       this.goToPage(nextPage); 
@@ -1335,6 +1334,7 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
   moveToPreviousBookmark() {
     const bookmarkedPages = Object.keys(this.bookmarks).map(Number).sort((a, b) => a - b);
     const previousPage = bookmarkedPages.reverse().find(page => page < this.pageNum);
+    this.toastr.info(`북마크목록: ${bookmarkedPages.join(', ')}\n현재페이지: ${this.pageNum}\n이전 북마크: ${previousPage}`);
     
     if (previousPage !== undefined) {
       this.goToPage(previousPage); 
@@ -1664,7 +1664,6 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   //수정됨
   goToPage(pageNum: number) {
-    this.toastr.info('페이지이동 이벤트');
     let page = pageNum;
 
     if (page === undefined || this.pageNum === page) { return; }
