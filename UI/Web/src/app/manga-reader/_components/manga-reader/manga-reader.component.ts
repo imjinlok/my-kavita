@@ -616,11 +616,9 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
       case ReaderMode.UpDown:
         if (event.key === KEY_CODES.UP_ARROW) {
           if (!this.checkIfPaginationAllowed(KeyDirection.Up)) return;
-          this.toastr.info('키이벤트');
           this.prevPage();
         } else if (event.key === KEY_CODES.DOWN_ARROW) {
           if (!this.checkIfPaginationAllowed(KeyDirection.Down)) return;
-          this.toastr.info('키이벤트');
           this.nextPage();
         }
         break;
@@ -639,7 +637,6 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (event.key === KEY_CODES.SPACE) {
       this.toggleMenu();
     } else if (event.key === KEY_CODES.G) {
-      this.toastr.info('페이지이동 키이벤트');
       const goToPageNum = await this.promptForPage();
       if (goToPageNum === null) { return; }
       this.goToPage(parseInt(goToPageNum.trim(), 10));
@@ -649,6 +646,12 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
       this.toggleFullscreen();
     } else if (event.key === KEY_CODES.H) {
       this.openShortcutModal();
+    } else if (event.key === KEY_CODES.N) {
+      this.toastr.info('다음북마크 키이벤트');
+      this.moveToNextBookmark();
+    } else if (event.key === KEY_CODES.M) {
+      this.toastr.info('이전북마크 키이벤트');
+      this.moveToPreviousBookmark();
     }
   }
 
@@ -1314,10 +1317,33 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
       this.readingDirection === ReadingDirection.LeftToRight ? this.prevPage(event) : this.nextPage(event);
     }
   }
-  
-  // 수정됨
+
+  //수정됨
+    moveToNextBookmark() {
+    const bookmarkedPages = Object.keys(this.bookmarks).map(Number).sort((a, b) => a - b);
+    //Object.key로 bookmarks의 객체의 키 배열을 가져온다. map으로 모두 숫자로 변환. sort로 오름차순으로 정리
+    const nextPage = bookmarkedPages.find(page => page > this.pageNum);
+    //현재 페이지보다 큰 첫번째 번호를 찾는다.
+    
+    if (nextPage !== undefined) {
+      this.goToPage(nextPage); 
+    } else {
+      this.toastr.info('다음 북마크가 없습니다.');
+    }
+  }
+
+  moveToPreviousBookmark() {
+    const bookmarkedPages = Object.keys(this.bookmarks).map(Number).sort((a, b) => a - b);
+    const previousPage = bookmarkedPages.reverse().find(page => page < this.pageNum);
+    
+    if (previousPage !== undefined) {
+      this.goToPage(previousPage); 
+    } else {
+      this.toastr.info('이전 북마크가 없습니다.');
+    }
+  }
+
   nextPage(event?: any) {
-    this.toastr.info('페이지이동이벤트');
     if (event) {
       event.stopPropagation();
       event.preventDefault();
@@ -1352,7 +1378,6 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   prevPage(event?: any) {
-    this.toastr.info('페이지이동이벤트');
     if (event) {
       event.stopPropagation();
       event.preventDefault();
