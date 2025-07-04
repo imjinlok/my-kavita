@@ -1322,10 +1322,10 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     //Object.key로 bookmarks의 객체의 키 배열을 가져온다. map으로 모두 숫자로 변환. sort로 오름차순으로 정리
     const nextPage = bookmarkedPages.find(page => page > this.pageNum);
     //현재 페이지보다 큰 첫번째 번호를 찾는다.
-    this.toastr.info(`북마크목록: ${bookmarkedPages.join(', ')}\n현재페이지: ${this.pageNum}\n다음 북마크: ${nextPage}`);
     
     if (nextPage !== undefined) {
-      this.goToPage(nextPage); 
+      this.goToPage(nextPage + 1);
+      //페이지 번호는 1부터 시작하는걸로 표시되지만 실제로 처리되는건 0부터 시작하는걸로 처리되기 떄문에 +1을 해줘야한다.
     } else {
       this.toastr.info('다음 북마크가 없습니다.');
     }
@@ -1334,10 +1334,9 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
   moveToPreviousBookmark() {
     const bookmarkedPages = Object.keys(this.bookmarks).map(Number).sort((a, b) => a - b);
     const previousPage = bookmarkedPages.reverse().find(page => page < this.pageNum);
-    this.toastr.info(`북마크목록: ${bookmarkedPages.join(', ')}\n현재페이지: ${this.pageNum}\n이전 북마크: ${previousPage}`);
     
     if (previousPage !== undefined) {
-      this.goToPage(previousPage); 
+      this.goToPage(previousPage + 1); 
     } else {
       this.toastr.info('이전 북마크가 없습니다.');
     }
@@ -1662,7 +1661,6 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  //수정됨
   goToPage(pageNum: number) {
     let page = pageNum;
 
