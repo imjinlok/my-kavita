@@ -1307,20 +1307,25 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param event
    * @param direction
    */
+  //수정됨
   handlePageChange(event: any, direction: KeyDirection) {
     // Webtoons and UpDown reading mode should not take ReadingDirection into account
     if (this.readerMode === ReaderMode.Webtoon || this.readerMode === ReaderMode.UpDown) {
       if (direction === KeyDirection.Right) {
+        this.toastr.info('웹툰,상하모드 키방향right');
         this.nextPage(event);
       } else {
+        this.toastr.info('웹툰,상하모드 키방향left');
         this.prevPage(event);
       }
       return;
     }
 
     if (direction === KeyDirection.Right) {
+      this.toastr.info('일반모드 우측부분터치?');
       this.readingDirection === ReadingDirection.LeftToRight ? this.nextPage(event) : this.prevPage(event);
     } else if (direction === KeyDirection.Left) {
+      this.toastr.info('일반모드 좌측부분터치?');
       this.readingDirection === ReadingDirection.LeftToRight ? this.prevPage(event) : this.nextPage(event);
     }
   }
