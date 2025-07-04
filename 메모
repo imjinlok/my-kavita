@@ -1,0 +1,17 @@
+카비타 북마크 기능을 내 입맛대로 수정
+수정사항에는 //수정됨 으로 주석을 달아둠
+
+수정사항
+UI/Web/src/app/manga-reader/_components/manga-reader/manga-reader.component.ts
+- 망가 모드에서 N, M키로 이전, 다음 북막크로 이동 기능 추가
+src/app/shared/_services/utility.service
+- 단축키 N,M 키코드 추가
+.github/workflows/release-workflow.yml
+- 도커 이미지 다운로드용 워크플로우로 수정함
+
+빌드방법
+Actions 탭에서 도커이미지 생성으로 작업 후 아티팩트에서 다운로드
+
+기타 참고사항
+25년 7월 원본https://github.com/Kareadita/Kavita의 v0.8.6.2 으로 작업했다.
+소스 다운받아서 PC에서 그냥 빌드하다가 삽질 많이 했다. 비추한다.
