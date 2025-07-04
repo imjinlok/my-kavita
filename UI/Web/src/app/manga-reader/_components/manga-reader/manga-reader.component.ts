@@ -600,6 +600,7 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     this.disableDoubleRendererIfScreenTooSmall();
   }
 
+  //수정들어감
   @HostListener('window:keyup', ['$event'])
   async handleKeyPress(event: KeyboardEvent) {
     switch (this.readerMode) {
@@ -615,10 +616,12 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
       case ReaderMode.UpDown:
         if (event.key === KEY_CODES.UP_ARROW) {
           if (!this.checkIfPaginationAllowed(KeyDirection.Up)) return;
-          this.prevPage();
+          this.moveToNextBookmark();
+          // this.prevPage(); 원본코드
         } else if (event.key === KEY_CODES.DOWN_ARROW) {
           if (!this.checkIfPaginationAllowed(KeyDirection.Down)) return;
-          this.nextPage();
+          this.moveToPreviousBookmark();
+          // this.nextPage(); 원본코드
         }
         break;
       case ReaderMode.Webtoon:
@@ -1311,6 +1314,30 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  //수정들어감
+  moveToNextBookmark() {
+    const bookmarkedPages = Object.keys(this.bookmarks).map(Number).sort((a, b) => a - b);
+    //Object.key로 bookmarks의 객체의 키 배열을 가져온다. map으로 모두 숫자로 변환. sort로 오름차순으로 정리
+    const nextPage = bookmarkedPages.find(page => page > this.pageNum);
+    //현재 페이지보다 큰 첫번째 번호를 찾는다.
+    
+    if (nextPage !== undefined) {
+      this.goToPage(nextPage); 
+    } else {
+      alert('더 이상 다음 북마크 페이지가 없습니다.');
+    }
+  }
+
+  moveToPreviousBookmark() {
+    const bookmarkedPages = Object.keys(this.bookmarks).map(Number).sort((a, b) => a - b);
+    const previousPage = bookmarkedPages.reverse().find(page => page < this.pageNum);
+    
+    if (previousPage !== undefined) {
+      this.goToPage(previousPage); 
+    } else {
+      alert('더 이상 이전 북마크 페이지가 없습니다.');
+    }
+  }
   nextPage(event?: any) {
     if (event) {
       event.stopPropagation();
