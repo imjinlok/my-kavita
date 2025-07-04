@@ -616,11 +616,26 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
       case ReaderMode.UpDown:
         if (event.key === KEY_CODES.UP_ARROW) {
           if (!this.checkIfPaginationAllowed(KeyDirection.Up)) return;
-          this.moveToNextBookmark();
+          this.toastr.info('UP키 인식');
+          const bookmarkedPages = Object.keys(this.bookmarks).map(Number).sort((a, b) => a - b);
+          const nextPage = bookmarkedPages.find(page => page > this.pageNum);
+          if (nextPage !== undefined) {
+            this.goToPage(nextPage); 
+          } else {
+            alert('더 이상 다음 북마크 페이지가 없습니다.');
+          }
           // this.prevPage(); 원본코드
         } else if (event.key === KEY_CODES.DOWN_ARROW) {
           if (!this.checkIfPaginationAllowed(KeyDirection.Down)) return;
-          this.moveToPreviousBookmark();
+          this.toastr.info('DOWN키 인식');
+          const bookmarkedPages = Object.keys(this.bookmarks).map(Number).sort((a, b) => a - b);
+          const previousPage = bookmarkedPages.reverse().find(page => page < this.pageNum);
+    
+          if (previousPage !== undefined) {
+            this.goToPage(previousPage); 
+          } else {
+            alert('더 이상 이전 북마크 페이지가 없습니다.');
+          }
           // this.nextPage(); 원본코드
         }
         break;
@@ -1313,24 +1328,7 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
       this.readingDirection === ReadingDirection.LeftToRight ? this.prevPage(event) : this.nextPage(event);
     }
   }
-
-  //수정들어감
-  moveToNextBookmark() {
-    const goToPageNum = this.promptForPage();
-    }
-  }
-
-  moveToPreviousBookmark() {
-    alert('moveToPreviousBookmark 실행됨');
-    const bookmarkedPages = Object.keys(this.bookmarks).map(Number).sort((a, b) => a - b);
-    const previousPage = bookmarkedPages.reverse().find(page => page < this.pageNum);
-    
-    if (previousPage !== undefined) {
-      this.goToPage(previousPage); 
-    } else {
-      alert('더 이상 이전 북마크 페이지가 없습니다.');
-    }
-  }
+  
   nextPage(event?: any) {
     if (event) {
       event.stopPropagation();
