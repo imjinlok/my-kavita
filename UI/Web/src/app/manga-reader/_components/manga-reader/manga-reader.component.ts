@@ -1316,6 +1316,7 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   //수정들어감
   moveToNextBookmark() {
+    alert('moveToNextBookmark 실행됨');
     const bookmarkedPages = Object.keys(this.bookmarks).map(Number).sort((a, b) => a - b);
     //Object.key로 bookmarks의 객체의 키 배열을 가져온다. map으로 모두 숫자로 변환. sort로 오름차순으로 정리
     const nextPage = bookmarkedPages.find(page => page > this.pageNum);
@@ -1329,6 +1330,7 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   moveToPreviousBookmark() {
+    alert('moveToPreviousBookmark 실행됨');
     const bookmarkedPages = Object.keys(this.bookmarks).map(Number).sort((a, b) => a - b);
     const previousPage = bookmarkedPages.reverse().find(page => page < this.pageNum);
     
