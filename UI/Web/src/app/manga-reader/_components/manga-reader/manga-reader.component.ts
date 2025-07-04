@@ -611,6 +611,12 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
         } else if (event.key === KEY_CODES.LEFT_ARROW) {
           if (!this.checkIfPaginationAllowed(KeyDirection.Left)) return;
           this.readingDirection === ReadingDirection.LeftToRight ? this.prevPage() : this.nextPage();
+        } else if (event.key === KEY_CODES.M) {
+          if (!this.checkIfPaginationAllowed(KeyDirection.Left)) return;
+          this.readingDirection === ReadingDirection.LeftToRight ? this.moveToNextBookmark() : this.moveToPreviousBookmark();
+        } else if (event.key === KEY_CODES.N) {
+          if (!this.checkIfPaginationAllowed(KeyDirection.Left)) return;
+          this.readingDirection === ReadingDirection.LeftToRight ? this.moveToPreviousBookmark() : this.moveToNextBookmark();
         }
         break;
       case ReaderMode.UpDown:
@@ -646,11 +652,14 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
       this.toggleFullscreen();
     } else if (event.key === KEY_CODES.H) {
       this.openShortcutModal();
-    } else if (event.key === KEY_CODES.N) {
+    }
+    /*
+    else if (event.key === KEY_CODES.N) {
       this.moveToNextBookmark();
     } else if (event.key === KEY_CODES.M) {
       this.moveToPreviousBookmark();
     }
+    */
   }
 
   setupReaderSettings() {
