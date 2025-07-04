@@ -600,7 +600,7 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     this.disableDoubleRendererIfScreenTooSmall();
   }
 
-  //수정들어감
+  //수정됨
   @HostListener('window:keyup', ['$event'])
   async handleKeyPress(event: KeyboardEvent) {
     switch (this.readerMode) {
@@ -616,27 +616,12 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
       case ReaderMode.UpDown:
         if (event.key === KEY_CODES.UP_ARROW) {
           if (!this.checkIfPaginationAllowed(KeyDirection.Up)) return;
-          this.toastr.info('UP키 인식');
-          const bookmarkedPages = Object.keys(this.bookmarks).map(Number).sort((a, b) => a - b);
-          const nextPage = bookmarkedPages.find(page => page > this.pageNum);
-          if (nextPage !== undefined) {
-            this.goToPage(nextPage); 
-          } else {
-            alert('더 이상 다음 북마크 페이지가 없습니다.');
-          }
-          // this.prevPage(); 원본코드
+          this.toastr.info('키이벤트');
+          this.prevPage();
         } else if (event.key === KEY_CODES.DOWN_ARROW) {
           if (!this.checkIfPaginationAllowed(KeyDirection.Down)) return;
-          this.toastr.info('DOWN키 인식');
-          const bookmarkedPages = Object.keys(this.bookmarks).map(Number).sort((a, b) => a - b);
-          const previousPage = bookmarkedPages.reverse().find(page => page < this.pageNum);
-    
-          if (previousPage !== undefined) {
-            this.goToPage(previousPage); 
-          } else {
-            alert('더 이상 이전 북마크 페이지가 없습니다.');
-          }
-          // this.nextPage(); 원본코드
+          this.toastr.info('키이벤트');
+          this.nextPage();
         }
         break;
       case ReaderMode.Webtoon:
@@ -654,6 +639,7 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (event.key === KEY_CODES.SPACE) {
       this.toggleMenu();
     } else if (event.key === KEY_CODES.G) {
+      this.toastr.info('페이지이동 키이벤트');
       const goToPageNum = await this.promptForPage();
       if (goToPageNum === null) { return; }
       this.goToPage(parseInt(goToPageNum.trim(), 10));
@@ -1329,7 +1315,9 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   
+  // 수정됨
   nextPage(event?: any) {
+    this.toastr.info('페이지이동이벤트');
     if (event) {
       event.stopPropagation();
       event.preventDefault();
@@ -1364,6 +1352,7 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   prevPage(event?: any) {
+    this.toastr.info('페이지이동이벤트');
     if (event) {
       event.stopPropagation();
       event.preventDefault();
@@ -1648,7 +1637,9 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  //수정됨
   goToPage(pageNum: number) {
+    this.toastr.info('페이지이동 이벤트');
     let page = pageNum;
 
     if (page === undefined || this.pageNum === page) { return; }
