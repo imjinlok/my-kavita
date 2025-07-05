@@ -653,13 +653,6 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (event.key === KEY_CODES.H) {
       this.openShortcutModal();
     }
-    /*
-    else if (event.key === KEY_CODES.N) {
-      this.moveToNextBookmark();
-    } else if (event.key === KEY_CODES.M) {
-      this.moveToPreviousBookmark();
-    }
-    */
   }
 
   setupReaderSettings() {
@@ -1312,21 +1305,38 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     // Webtoons and UpDown reading mode should not take ReadingDirection into account
     if (this.readerMode === ReaderMode.Webtoon || this.readerMode === ReaderMode.UpDown) {
       if (direction === KeyDirection.Right) {
-        this.toastr.info('웹툰,상하모드 키방향right');
         this.nextPage(event);
       } else {
-        this.toastr.info('웹툰,상하모드 키방향left');
         this.prevPage(event);
       }
       return;
     }
 
     if (direction === KeyDirection.Right) {
-      this.toastr.info('일반모드 우측부분터치?');
       this.readingDirection === ReadingDirection.LeftToRight ? this.nextPage(event) : this.prevPage(event);
     } else if (direction === KeyDirection.Left) {
-      this.toastr.info('일반모드 좌측부분터치?');
       this.readingDirection === ReadingDirection.LeftToRight ? this.prevPage(event) : this.nextPage(event);
+    }
+  }
+
+  handleBookmarkChange(direction: KeyDirection) {
+     if (this.readerMode === ReaderMode.Webtoon || this.readerMode === ReaderMode.UpDown) {
+      if (direction === KeyDirection.Right) {
+        this.toastr.info('웹툰모드 다움북마크');
+        this.moveToNextBookmark();
+      } else {
+        this.toastr.info('웹툰모드 이전북마크');
+        this.moveToPreviousBookmark();
+      }
+      return;
+    }
+
+    if (direction === KeyDirection.Right) {
+      this.toastr.info('일반모드 다움북마크');
+      this.readingDirection === ReadingDirection.LeftToRight ? this.moveToNextBookmark() : this.moveToPreviousBookmark();
+    } else if (direction === KeyDirection.Left) {
+      this.toastr.info('일반모드 이전북마크');
+      this.readingDirection === ReadingDirection.LeftToRight ? this.moveToPreviousBookmark() : this.moveToNextBookmark();
     }
   }
 
@@ -1334,7 +1344,14 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     moveToNextBookmark() {
     const bookmarkedPages = Object.keys(this.bookmarks).map(Number).sort((a, b) => a - b);
     //Object.key로 bookmarks의 객체의 키 배열을 가져온다. map으로 모두 숫자로 변환. sort로 오름차순으로 정리
-    const nextPage = bookmarkedPages.find(page => page > this.pageNum);
+    const pageAmount = Math.max(this.canvasRenderer.getPageAmount(PAGING_DIRECTION.FORWARD), this.singleRenderer.getPageAmount(PAGING_DIRECTION.FORWARD),
+                                this.doubleRenderer.getPageAmount(PAGING_DIRECTION.FORWARD),
+                                this.doubleReverseRenderer.getPageAmount(PAGING_DIRECTION.FORWARD),
+                                this.doubleNoCoverRenderer.getPageAmount(PAGING_DIRECTION.FORWARD)
+                              );
+    this.toastr.info('pageAmount값: $(pageAmount');
+    //현재 1장보기 모드인지, 2장보기 모드인지 값을 가져오는걸로 보인다. 1또는2가 출력되는걸로 보인다. nextpage()에서 참고해 가져온 함수다.
+    const nextPage = bookmarkedPages.find(page => page > (this.pageNum + pageAmount -1));
     //현재 페이지보다 큰 첫번째 번호를 찾는다.
     
     if (nextPage !== undefined) {
@@ -1354,6 +1371,7 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.toastr.info('이전 북마크가 없습니다.');
     }
+    this.toastr.info('이동후 pageNum: $(this.pageNum');
   }
 
   nextPage(event?: any) {
@@ -1368,7 +1386,7 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cdRef.markForCheck();
 
     this.pagingDirectionSubject.next(PAGING_DIRECTION.FORWARD);
-
+//참고
     const pageAmount = Math.max(this.canvasRenderer.getPageAmount(PAGING_DIRECTION.FORWARD), this.singleRenderer.getPageAmount(PAGING_DIRECTION.FORWARD),
                                 this.doubleRenderer.getPageAmount(PAGING_DIRECTION.FORWARD),
                                 this.doubleReverseRenderer.getPageAmount(PAGING_DIRECTION.FORWARD),
