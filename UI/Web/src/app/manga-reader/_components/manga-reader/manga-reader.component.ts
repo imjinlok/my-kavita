@@ -1300,7 +1300,6 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param event
    * @param direction
    */
-  //수정됨
   handlePageChange(event: any, direction: KeyDirection) {
     // Webtoons and UpDown reading mode should not take ReadingDirection into account
     if (this.readerMode === ReaderMode.Webtoon || this.readerMode === ReaderMode.UpDown) {
@@ -1319,23 +1318,20 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  //수정됨
   handleBookmarkChange(direction: KeyDirection) {
      if (this.readerMode === ReaderMode.Webtoon || this.readerMode === ReaderMode.UpDown) {
       if (direction === KeyDirection.Right) {
-        this.toastr.info('웹툰모드 다움북마크');
         this.moveToNextBookmark();
       } else {
-        this.toastr.info('웹툰모드 이전북마크');
         this.moveToPreviousBookmark();
       }
       return;
     }
 
     if (direction === KeyDirection.Right) {
-      this.toastr.info('일반모드 다움북마크');
       this.readingDirection === ReadingDirection.LeftToRight ? this.moveToNextBookmark() : this.moveToPreviousBookmark();
     } else if (direction === KeyDirection.Left) {
-      this.toastr.info('일반모드 이전북마크');
       this.readingDirection === ReadingDirection.LeftToRight ? this.moveToPreviousBookmark() : this.moveToNextBookmark();
     }
   }
@@ -1349,7 +1345,7 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
                                 this.doubleReverseRenderer.getPageAmount(PAGING_DIRECTION.FORWARD),
                                 this.doubleNoCoverRenderer.getPageAmount(PAGING_DIRECTION.FORWARD)
                               );
-    this.toastr.info('pageAmount값: $(pageAmount');
+    this.toastr.info('pageAmount값: $(pageAmount)');
     //현재 1장보기 모드인지, 2장보기 모드인지 값을 가져오는걸로 보인다. 1또는2가 출력되는걸로 보인다. nextpage()에서 참고해 가져온 함수다.
     const nextPage = bookmarkedPages.find(page => page > (this.pageNum + pageAmount -1));
     //현재 페이지보다 큰 첫번째 번호를 찾는다.
