@@ -65,7 +65,7 @@
 
         <!-- Pagination controls and screen hints-->
         <div class="pagination-area">
-          <div class="{{readerMode === ReaderMode.LeftRight ? 'left' : 'top'}} {{clickOverlayClass('left')}}" (dblclick)="handleBookmarkChange(KeyDirection.Left)" (singleClick)="handlePageChange($event, KeyDirection.Left)"
+          <div class="{{readerMode === ReaderMode.LeftRight ? 'left' : 'top'}} {{clickOverlayClass('left')}}" appDblClick (dblclick)="handleBookmarkChange(KeyDirection.Left)" (singleClick)="handlePageChange($event, KeyDirection.Left)"
                [ngStyle]="{'height': (readerMode === ReaderMode.LeftRight ? MaxHeight: '25%'), 'max-height': MaxHeight}">
           <!--
             수정됨, 원본
@@ -79,7 +79,7 @@
               </div>
             }
           </div>
-          <div class="{{readerMode === ReaderMode.LeftRight ? 'right' : 'bottom'}} {{clickOverlayClass('right')}}" (dblclick)="handleBookmarkChange(KeyDirection.Right)" (singleClick)="handlePageChange($event, KeyDirection.Right)"
+          <div class="{{readerMode === ReaderMode.LeftRight ? 'right' : 'bottom'}} {{clickOverlayClass('right')}}" appDblClick (dblclick)="handleBookmarkChange(KeyDirection.Right)" (singleClick)="handlePageChange($event, KeyDirection.Right)"
                [ngStyle]="{'height': (readerMode === ReaderMode.LeftRight ? MaxHeight: '25%'),
                                 'left': 'inherit',
                                 'right': RightPaginationOffset + 'px',
