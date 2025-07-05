@@ -3,9 +3,9 @@
 
 수정사항
 UI/Web/src/app/manga-reader/_components/manga-reader/manga-reader.component.ts
-- 망가 모드에서 N, M키로 이전, 다음 북막크로 이동 기능 추가
-src/app/shared/_services/utility.service
-- 단축키 N,M 키코드 추가
+- 망가 모드에서 이전, 다음 북막크로 이동 기능 추가
+UI/Web/src/app/manga-reader/_components/manga-reader/manga-reader.component.html
+- 화면 좌,우 더블클릭 시 북마크 이동기능을 호출하도록 수정
 .github/workflows/release-workflow.yml
 - 도커 이미지 다운로드용 워크플로우로 수정함
 
