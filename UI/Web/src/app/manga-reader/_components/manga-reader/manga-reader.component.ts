@@ -1339,7 +1339,6 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
                                 this.doubleReverseRenderer.getPageAmount(PAGING_DIRECTION.FORWARD),
                                 this.doubleNoCoverRenderer.getPageAmount(PAGING_DIRECTION.FORWARD)
                               );
-    this.toastr.info('pageAmount값: ${pageAmount}');
     //현재 1장보기 모드인지, 2장보기 모드인지 값을 가져오는걸로 보인다. 1또는2가 출력되는걸로 보인다. nextpage()에서 참고해 가져온 함수다.
     const nextPage = bookmarkedPages.find(page => page > (this.pageNum + pageAmount -1));
     //현재 페이지보다 큰 첫번째 번호를 찾는다.
@@ -1361,7 +1360,6 @@ export class MangaReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.toastr.info('이전 북마크가 없습니다.');
     }
-    this.toastr.info('이동후 pageNum: ${this.pageNum}');
   }
 
   nextPage(event?: any) {
